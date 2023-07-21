@@ -1,21 +1,36 @@
-import { BsPencilSquare, BsTrash3Fill } from 'react-icons/bs'
-import { truncatedText } from '../logic/funciones'
+import { BsFillCalendarWeekFill, BsFillPeopleFill, BsPencilSquare, BsTrash3Fill } from 'react-icons/bs'
+import { ordenarDias, truncatedText } from '../logic/funciones'
 import PropTypes from 'prop-types'
 import { FaLocationDot } from 'react-icons/fa6'
 import { useState } from 'react'
 import ModalDelete from './ModalDelete'
-import FormReservation from './FormReservation'
+import FormWorkspace from './FormWorkspace'
+import { BiSolidTimeFive } from 'react-icons/bi'
 
 function CardWorkspace({ data }) {
    const [modalEdit, setModalEdit] = useState(false)
    const [modalDelete, setModalDelete] = useState(false)
    const precio = data.price === 0 ? 'FREE' : `$${data.price}`
    
+   const dias = ordenarDias([
+      "Lun",
+      "Vie", 
+      "Jue",
+      "Mie",
+      "Dom",
+      "Mar",
+      "Sab"
+   ])
    return (
       <>
-         <article className='flex flex-col gap-5 p-5 bg-cyan-100 shadow-cards text-blue-950 rounded-xl max-w-[300px] w-full mx-auto text-sm sm:text-base md:text-lg'>
+         <article className='flex flex-col gap-5 p-5 bg-cyan-100 shadow-cards text-blue-950 rounded-xl max-w-[400px] w-full mx-auto text-sm sm:text-base md:text-lg'>
             <h3 className='font-bold text-xl text-center'>{data.title}</h3>
             <p className='font-medium break-words'>{truncatedText(data.description)}</p>
+            
+            <div className="flex items-center justify-center gap-2">
+               <BsFillPeopleFill className='min-w-[14px]'/>
+               <p className='font-medium'>Max. 10 Personas</p>
+            </div>
             <div className="flex items-center justify-center font-semibold gap-2">
                <FaLocationDot className='min-w-[14px]'/>
                <p>{data.address}</p>
@@ -24,6 +39,16 @@ function CardWorkspace({ data }) {
                <strong className='text-blue-950/50'>{data.lat}</strong>
                <strong className='text-blue-950/50'>{data.lon}</strong>
             </div>
+            <article className='flex flex-col gap-2 justify-center items-center'>
+               <div className="flex items-center gap-2">
+                  <BsFillCalendarWeekFill/>
+                  <p className='font-medium'>{dias.join(' - ')}</p>
+               </div>
+               <div className="flex items-center gap-2">
+                  <BiSolidTimeFive/>
+                  <p className='font-medium'>7:00 am - 9:00 pm</p>
+               </div>
+            </article>
             <p className={`${precio === 'FREE' ? 'font-bold italic text-lg md:text-2xl text-center text-green-600' : 'font-bold text-center'}`}>{precio}</p>
             
             <div className='flex justify-evenly'>
@@ -51,7 +76,7 @@ function CardWorkspace({ data }) {
             <ModalDelete setModalDelete={setModalDelete} id={data._id}/>
          )}
          {modalEdit && (
-            <FormReservation setShowForm={setModalEdit} id={data._id}/>
+            <FormWorkspace setShowForm={setModalEdit} id={data._id}/>
          )}
       </>
    )

@@ -41,47 +41,47 @@ function Nav() {
 					</NavLink>
 				</section>
 			) : (
-				<section className='flex items-center gap-2 sm:gap-5 sm:text-xl font-semibold'>
+				<section className='flex items-center gap-2 min-500:gap-5 sm:gap-1 min-900:gap-5 font-semibold'>
 					<NavLink
 						to={'/workspaces'}
 						className={({ isActive }) =>
 							isActive
-								? 'bg-sky-600/70 rounded-lg px-2 hover:bg-sky-600 flex items-center gap-5'
-								: 'rounded-lg px-2 hover:bg-sky-600 flex items-center gap-5'
+								? 'bg-sky-600/70 rounded-lg px-2 hover:bg-sky-600 flex items-center gap-5 py-1'
+								: 'rounded-lg px-2 hover:bg-sky-600 flex items-center gap-5 py-1'
 						}
 					>
-						<FaMapMarkedAlt className='sm:text-2xl'/>
-						<span className='hidden sm:block'>Buscar Espacios</span>
+						<FaMapMarkedAlt className='min-500:text-xl sm:text-2xl'/>
+						<span className='hidden sm:block text-sm md:text-lg '>Buscar Espacios</span>
 					</NavLink>
 					<NavLink
 						to={'/reservations'}
 						className={({ isActive }) =>
 							isActive
-								? 'bg-sky-600/70 rounded-lg px-2 hover:bg-sky-600 flex items-center gap-5'
-								: 'rounded-lg px-2 hover:bg-sky-600 flex items-center gap-5'
+								? 'bg-sky-600/70 rounded-lg px-2 hover:bg-sky-600 flex items-center gap-5 py-1'
+								: 'rounded-lg px-2 hover:bg-sky-600 flex items-center gap-5 py-1'
 						}
 					>
-						<BsFillBookmarkFill className='sm:text-2xl'/>
-						<span className='hidden sm:block'>Mis Reservas</span>
+						<BsFillBookmarkFill className='min-500:text-xl sm:text-2xl'/>
+						<span className='hidden sm:block text-sm md:text-lg '>Mis Reservas</span>
 					</NavLink>
 					{user.rol === 'Admin' && (
 						<NavLink
 							to={'/dashboard'}
 							className={({ isActive }) =>
 								isActive
-									? 'bg-sky-600/70 rounded-lg px-2 hover:bg-sky-600 flex items-center gap-5'
-									: 'rounded-lg px-2 hover:bg-sky-600 flex items-center gap-5'
+									? 'bg-sky-600/70 rounded-lg px-2 hover:bg-sky-600 flex items-center gap-5 py-1'
+									: 'rounded-lg px-2 hover:bg-sky-600 flex items-center gap-5 py-1'
 							}
 						>
-							<FaUserAlt className='sm:text-2xl'/>
-							<span className='hidden sm:block'>Administrar</span>
+							<FaUserAlt className='min-500:text-xl sm:text-2xl'/>
+							<span className='hidden sm:block text-sm md:text-lg '>Administrar</span>
 						</NavLink>
 					)}
-					<button className='rounded-lg py-1 px-2 hover:bg-sky-600'>
-						<BsTranslate className='sm:text-2xl'/>
+					<button className='rounded-lg py-1.5 px-2 hover:bg-sky-600'>
+						<BsTranslate className='min-500:text-xl sm:text-2xl'/>
 					</button>
-					<NavLink to={'/login'} className='rounded-lg py-1 px-2 hover:bg-sky-600'>
-						<BiLogOut className='sm:text-2xl'/>
+					<NavLink to={'/login'} className='rounded-lg py-1.5 px-2 hover:bg-sky-600'>
+						<BiLogOut className='min-500:text-xl sm:text-2xl'/>
 					</NavLink>
 				</section>
 			)}

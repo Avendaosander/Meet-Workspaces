@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 function RowUserEdit({ user, setEditing }) {
    console.log(user)
 	return (
-		<form className='w-full bg-cyan-100 text-blue-950 shadow-cards grid md:grid-cols-[auto,auto,auto,auto] lg:grid-cols-4 justify-items-center gap-5 p-5 rounded-xl'>
+		<form className='w-full bg-cyan-100 text-blue-950 shadow-cards grid md:grid-cols-[auto,auto,auto,auto] lg:grid-cols-4 justify-items-center gap-5 p-5 rounded-xl font-Poppins'>
 			<input
 				type='text'
 				name='username'
@@ -13,7 +13,7 @@ function RowUserEdit({ user, setEditing }) {
 				// value={user.username}
 				placeholder='Username'
             autoFocus
-				className='font-bold bg-inherit outline-none ring-1 rounded-sm px-3 py-1 focus:rounded-xl focus:ring-sky-700'
+				className='font-bold w-full bg-inherit outline-none ring-1 rounded-sm px-3 py-1 placeholder:text-blue-950/70 focus:rounded-xl focus:ring-sky-700 focus:placeholder:text-blue-950/50'
 			/>
 			<input
 				type='email'
@@ -21,7 +21,7 @@ function RowUserEdit({ user, setEditing }) {
             title='Correo Electronico'
 				// value={user.email}
 				placeholder='email'
-				className='font-medium bg-inherit outline-none ring-1 rounded-sm px-3 py-1 focus:rounded-xl focus:ring-sky-700'
+				className='font-medium w-full bg-inherit outline-none ring-1 rounded-sm px-3 py-1 placeholder:text-blue-950/70 focus:rounded-xl focus:ring-sky-700 focus:placeholder:text-blue-950/50'
 			/>
 			<select
 				name='rol'

@@ -13,9 +13,9 @@ function RowUser({ user }) {
          {editing ? (
             <RowUserEdit user={user} setEditing={setEditing}/>
          ) : (
-            <article className='w-full bg-cyan-100 text-blue-950 shadow-cards grid sm:grid-cols-[auto,auto,auto,auto] lg:grid-cols-4 justify-items-center gap-5 p-5 rounded-xl'>
-               <strong className='py-1'>@{user.username}</strong>
-               <p className='font-medium py-1'>{user.email}</p>
+            <article className='w-full bg-cyan-100 text-blue-950 shadow-cards grid sm:grid-cols-[auto,auto,auto,auto] lg:grid-cols-4 justify-items-center gap-5 p-5 rounded-xl font-Poppins box-border'>
+               <strong className='py-1 break-all'>@{user.username}</strong>
+               <p className='font-medium py-1 break-all'>{user.email}</p>
                <p className='font-semibold py-1'>{user.rol}</p>
                <div className='flex items-center gap-10 sm:gap-5 md:gap-10 py-1'>
                   <button className='relative group/workspace' onClick={() => setEditing(true)}>

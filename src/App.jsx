@@ -18,11 +18,11 @@ function App() {
 					<Route path="/" element={<Homepage/>}/>
 					<Route path="/login" element={<Login/>}/>
 					<Route path="/register" element={<Register/>}/>
+					<Route element={<ProtectedRouter isAllowed={!!user}/>}>
 						<Route path="/workspaces" element={<Home/>}/>
 						<Route path="/reservations" element={<Reservations/>}/>
-					{/* <Route element={<ProtectedRouter isAllowed={!!user}/>}> */}
-					{/* </Route> */}
-					<Route element={<ProtectedRouter isAllowed={!!user && user.rol === 'Admin'}/>}>
+					</Route>
+					<Route element={<ProtectedRouter isAllowed={!!user && user.rol === 'Admin'} redirectTo="/"/>}>
 						<Route path="/dashboard" element={<Dashboard/>}/>
 					</Route>
 				</Routes>

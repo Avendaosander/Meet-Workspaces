@@ -13,11 +13,11 @@ function CardReservation({ data }) {
 
    return (
       <>
-         <article className='flex flex-col gap-3 p-5 bg-cyan-100 shadow-cards rounded-xl max-w-[300px] w-full mx-auto text-sm sm:text-base md:text-lg font-medium text-blue-950'>
+         <article className='flex flex-col gap-3 p-5 bg-cyan-100 shadow-cards rounded-xl max-w-[400px] w-full mx-auto text-sm sm:text-base md:text-lg font-medium text-blue-950 font-Poppins'>
             <h3 className='font-bold text-center text-xl'>{data.workspace.title}</h3>
             <div className="flex items-center gap-2">
                <FaUserAlt className='sm:min-w-[18px]'/>
-               <p>@{data.user.username}</p>
+               <p>{data.user.username}</p>
             </div>
             <div className="flex items-center gap-2">
                <FaLocationDot className='min-w-[14px]'/>

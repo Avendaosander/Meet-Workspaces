@@ -40,14 +40,14 @@ const CarouselComments = ({ comments }) => {
    return (
       <>
          {comments.length > 0 && (
-            <article className='mx-auto sm:h-[200px] grid grid-cols-2 sm:grid-cols-6 max-sm:grid-rows-[auto,1,auto] max-sm:justify-items-center items-center gap-5'>
+            <article className='mx-auto sm:h-[200px] md:h-auto grid grid-cols-2 sm:grid-cols-6 max-sm:grid-rows-[auto,1,auto] md:grid-cols-2 md:grid-rows-[auto,auto] items-center gap-5 font-Laila'>
                <button
-                  className={`h-auto sm:col-start-1 w-full flex justify-center items-center p-1 sm:p-5 text-2xl bg-cyan-200 rounded-lg hover:scale-105 hover:bg-cyan-500/50 hover:text-gray-700 ${comments.length === 1 && 'opacity-0 pointer-events-none'}`}
+                  className={`h-auto sm:col-start-1 md:col-start-1 w-full flex justify-center items-center p-1 sm:p-5 md:p-1 text-2xl bg-cyan-200 rounded-lg hover:scale-105 hover:bg-cyan-500/50 hover:text-gray-700 ${comments.length === 1 && 'opacity-0 pointer-events-none'}`}
                   onClick={handlePrev}
                >
                   <BsChevronCompactLeft/>
                </button>
-               <div className='max-sm:row-start-1 col-span-2 sm:col-span-4 relative flex flex-col gap-5 py-5 px-10 sm:w-[400px] text-left bg-cyan-200/50 ring-1 ring-cyan-700 rounded-r-xl rounded-bl-xl'>
+               <div className='max-sm:row-start-1 md:row-start-1 col-span-2 sm:col-span-4 md:col-span-2 relative flex flex-col gap-5 py-5 px-10 sm:w-[400px] md:w-auto md:max-w-[400px] text-left bg-cyan-200/50 ring-1 ring-cyan-700 rounded-r-xl rounded-bl-xl'>
                   {comments.map((comment, index) => (
                      <div
                         key={comment._id}
@@ -68,7 +68,7 @@ const CarouselComments = ({ comments }) => {
                   ))}
                </div>
                <button
-                  className={`h-auto sm:col-span-1 w-full flex justify-center items-center p-1 sm:p-5 text-2xl bg-cyan-200 rounded-lg hover:scale-105 hover:bg-cyan-500/50 hover:text-gray-700 ${comments.length === 1 && 'opacity-0 pointer-events-none'}`}
+                  className={`h-auto sm:col-span-1 md:col-span-1 w-full flex justify-center items-center p-1 sm:p-5 md:p-1 text-2xl bg-cyan-200 rounded-lg hover:scale-105 hover:bg-cyan-500/50 hover:text-gray-700 ${comments.length === 1 && 'opacity-0 pointer-events-none'}`}
                   onClick={handleNext}
                >
                   <BsChevronCompactRight/>

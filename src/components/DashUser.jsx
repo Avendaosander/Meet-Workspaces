@@ -26,17 +26,21 @@ const users = [
 
 function DashUser() {
 	return (
-		<main className='flex flex-col py-5 gap-5 pb-96'>
+		<main className='flex flex-col py-5 gap-5 pb-96 md:pb-80 min-900:pb-72 lg:pb-60'>
 			<h1 className='text-2xl sm:text-3xl text-center font-bold'>
 				Usuarios
 			</h1>
 			<section className='flex flex-col justify-items-center px-10 md:px-20 gap-10'>
-				{users.map(user => (
-					<RowUser
-						key={user._id}
-						user={user}
-					/>
-				))}
+				{users.length === 0 ? (
+					<strong className="text-center text-lg">No hay usuarios para mostrar</strong>
+				) : (
+					users.map(user => (
+						<RowUser
+							key={user._id}
+							user={user}
+						/>
+					))
+				)}
 			</section>
 		</main>
 	)
