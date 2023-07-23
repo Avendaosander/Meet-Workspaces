@@ -7,7 +7,13 @@ import { BsFillBookmarkFill, BsTranslate } from 'react-icons/bs'
 import { BiLogOut } from 'react-icons/bi'
 
 function Nav() {
-	const { user } = useContext(UserContext)
+	const { user, setUser } = useContext(UserContext)
+
+	const logout = () => {
+		setUser(null)
+		localStorage.removeItem('User')
+	}
+	
 	return (
 		<nav className='bg-sky-700 text-sky-50 h-20 flex justify-between items-center px-5'>
 			<NavLink to={'/'}>
@@ -64,7 +70,7 @@ function Nav() {
 						<BsFillBookmarkFill className='min-500:text-xl sm:text-2xl'/>
 						<span className='hidden sm:block text-sm md:text-lg '>Mis Reservas</span>
 					</NavLink>
-					{user.rol === 'Admin' && (
+					{user?.rol === 'Admin' && (
 						<NavLink
 							to={'/dashboard'}
 							className={({ isActive }) =>
@@ -80,7 +86,7 @@ function Nav() {
 					<button className='rounded-lg py-1.5 px-2 hover:bg-sky-600'>
 						<BsTranslate className='min-500:text-xl sm:text-2xl'/>
 					</button>
-					<NavLink to={'/login'} className='rounded-lg py-1.5 px-2 hover:bg-sky-600'>
+					<NavLink to={'/login'} className='rounded-lg py-1.5 px-2 hover:bg-sky-600' onClick={logout}>
 						<BiLogOut className='min-500:text-xl sm:text-2xl'/>
 					</NavLink>
 				</section>
