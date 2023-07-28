@@ -1,12 +1,13 @@
-import { BsChevronCompactLeft, BsFillCalendarWeekFill, BsFillPeopleFill, BsSearch } from 'react-icons/bs'
-import Nav from '../components/Nav'
 import { useState } from 'react'
-import CarouselComments from '../components/CarouselComments'
-import FormReservation from '../components/FormReservation'
+import { BsChevronCompactLeft, BsFillCalendarWeekFill, BsFillPeopleFill } from 'react-icons/bs'
 import { FaLocationDot, FaMoneyBill1Wave } from 'react-icons/fa6'
 import { TbWorldLatitude, TbWorldLongitude } from 'react-icons/tb'
 import { BiSolidTimeFive } from 'react-icons/bi'
-import { ordenarDias } from '../logic/funciones'
+import { sortDays } from '../logic/funciones'
+import Nav from '../components/Nav'
+import Map from '../components/Map'
+import FormReservation from '../components/FormReservation'
+import CarouselComments from '../components/CarouselComments'
 
 const comments = [
 	{
@@ -23,11 +24,11 @@ const comments = [
 			_id: '87548934784',
 			username: 'Avendaosander'
 		},
-		content: 'Wapardo'
+		content: 'Excelente lugar para trabajar'
 	}
 ]
 
-const dias = ordenarDias([
+const dias = sortDays([
 	"Lun",
 	"Vie", 
 	"Jue",
@@ -47,20 +48,10 @@ function Home() {
 		<div className='min-h-screen flex flex-col'>
 			<Nav/>
 			<main className='relative flex-grow flex flex-col'>
-				<section className='h-full w-full flex-grow bg-cyan-500'></section>
-				<section className='absolute top-2 w-full'>
-					<form className='relative flex items-center w-4/5 md:w-2/5 mx-auto md:mx-5'>
-						<input
-							type='text'
-							placeholder='Busca por ciudad o direccion'
-							className='bg-sky-50 w-full py-1 px-3 text-sm rounded-xl ring-1 ring-sky-700 focus:ring-2 outline-none placeholder:text-blue-950/80'
-						/>
-						<button className='absolute right-2 hover:scale-125'>
-							<BsSearch />
-						</button>
-					</form>
+				<section className='h-full w-full flex-grow'>
+					<Map/>
 				</section>
-				<section className='fixed md:absolute bottom-0 md:right-0 md:h-full flex flex-col md:flex-row md: items-center w-full md:w-auto md:max-w-[40%]'>
+				<section className='fixed md:absolute bottom-0 md:right-0 md:h-full z-50 flex flex-col md:flex-row md: items-center w-full md:w-auto md:max-w-[40%]'>
 					<button
 						className='h-5 w-10 md:h-10 md:w-5 bg-cyan-200 flex justify-center items-center rounded-t-lg md:rounded-none md:rounded-l-xl shadow-[0px_-2px_8px_2px] shadow-sky-300'
 						onClick={() => setDetails(!details)}
