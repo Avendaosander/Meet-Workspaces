@@ -3,6 +3,7 @@ import { UserContext } from "../context/userContext"
 import { Link, useNavigate } from "react-router-dom"
 import { useMutation } from '@apollo/client'
 import { LOGIN } from "../graphql/Users"
+import { toastCustom, toastError } from "../utils/toasts"
 
 function FormLogin() {
 	const { setUser } = useContext(UserContext)
@@ -12,16 +13,23 @@ function FormLogin() {
 	})
 	const navegar = useNavigate()
 
-	const [login, {data, loading, error}] = useMutation(LOGIN)
+	const [login, {data, loading, error, reset}] = useMutation(LOGIN)
 
 	if (data?.login) {
 		localStorage.setItem('User', JSON.stringify(data.login))
+		toastCustom(`Bievenido ${data.login.username}`, '👏')
 		setUser(data.login)
-		navegar('/')
+		navegar('/workspaces')
 	}
 
 	const handleSubmit = (e) => {
 		e.preventDefault()
+		if (userForm.username === '') {
+			return toastError('El campo Username no puede estar vacio')
+		}
+		if (userForm.password === '') {
+			return toastError('El campo Password no puede estar vacio')
+		}
 		login({
 			variables: {
 				username: userForm.username,
@@ -37,7 +45,11 @@ function FormLogin() {
 		})
 	}
 
-	// console.log({error: error?.message})
+	if (error?.message) {
+		toastError(error?.message)
+		reset()
+	}
+
 	return (
 		<form className='flex flex-col gap-8 px-5 min-500:text-lg min-900:px-0 min-900:py-10 flex-1' onSubmit={handleSubmit}>
 			<h2 className='text-center text-2xl font-bold'>Inicia Sesión</h2>
@@ -51,7 +63,6 @@ function FormLogin() {
 					placeholder=' '
 					value={userForm.username}
 					onChange={handleChange}
-					required
 				/>
 				<label
 					htmlFor='username'
@@ -69,7 +80,6 @@ function FormLogin() {
 					placeholder=' '
 					value={userForm.password}
 					onChange={handleChange}
-					required
 				/>
 				<label
 					htmlFor='password'
@@ -82,7 +92,7 @@ function FormLogin() {
 				<strong className="text-xs min-500:text-sm">¿No tienes una cuenta?</strong>
 				<Link to={'/register'} className="text-xs min-500:text-sm text-cyan-700/80 hover:font-bold">Crear cuenta</Link>
 			</div>
-			<button className="mx-auto bg-cyan-700 text-sky-50 py-1 px-10 rounded-lg hover:scale-110 disabled:opacity-50" disabled={loading}>Iniciar Sesión</button>
+			<button className="mx-auto bg-cyan-700 text-sky-50 py-1 px-10 rounded-lg hover:scale-110 disabled:opacity-50 disabled:scale-100" disabled={loading}>Iniciar Sesión</button>
 		</form>
 	)
 }

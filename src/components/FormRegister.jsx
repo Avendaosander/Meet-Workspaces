@@ -3,6 +3,7 @@ import { UserContext } from '../context/userContext'
 import { Link, useNavigate } from 'react-router-dom'
 import { useMutation } from '@apollo/client'
 import { REGISTER } from '../graphql/Users'
+import { toastCustom, toastError } from '../utils/toasts'
 
 function FormRegister() {
 	const { setUser } = useContext(UserContext)
@@ -13,18 +14,28 @@ function FormRegister() {
 	})
 	const navegar = useNavigate()
 
-	const [register, {data, loading, error}] = useMutation(REGISTER)
+	const [register, {data, loading, error, reset}] = useMutation(REGISTER)
 
 	if (data?.register) {
 		localStorage.setItem('User', JSON.stringify(data.register))
 		setUser(data.register)
-		navegar('/')
+		toastCustom(`Bievenido ${data.register.username}`, '👏')
+		navegar('/workspaces')
 	}
 
 	const handleSubmit = (e) => {
 		e.preventDefault()
 		if (e.target.confirmPassword.value !== userForm.password) {
-			return console.log('Contraseñas no son iguales')
+			return toastError('Contraseñas no son iguales')
+		}
+		if (userForm.username === '') {
+			return toastError('El campo Username no puede estar vacio')
+		}
+		if (userForm.email === '') {
+			return toastError('El campo Email no puede estar vacio')
+		}
+		if (userForm.password === '') {
+			return toastError('El campo Password no puede estar vacio')
 		}
 		register({
 			variables: {
@@ -42,7 +53,11 @@ function FormRegister() {
 		})
 	}
 
-	// console.log({error: error?.message})
+	if (error?.message) {
+		toastError(error?.message)
+		reset()
+	}
+
 	return (
 		<form className='flex flex-col gap-8 px-5 min-500:text-lg min-900:px-0 min-900:py-10 flex-1' onSubmit={handleSubmit}>
 			<h2 className='text-center text-2xl font-bold'>Registrarse</h2>
@@ -56,7 +71,6 @@ function FormRegister() {
 					placeholder=' '
 					value={userForm.username}
 					onChange={handleChange}
-					required
 				/>
 				<label
 					htmlFor='username'
@@ -74,7 +88,6 @@ function FormRegister() {
 					placeholder=' '
 					value={userForm.email}
 					onChange={handleChange}
-					required
 				/>
 				<label
 					htmlFor='email'
@@ -92,7 +105,6 @@ function FormRegister() {
 					placeholder=' '
 					value={userForm.password}
 					onChange={handleChange}
-					required
 				/>
 				<label
 					htmlFor='password'
@@ -108,7 +120,6 @@ function FormRegister() {
 					id='confirmPassword'
 					className='block py-2 w-full text-blue-950 font-medium bg-cyan-200 ring-1 ring-cyan-700/30 rounded-lg px-2 focus:outline-none focus:ring-0 peer'
 					placeholder=' '
-					required
 				/>
 				<label
 					htmlFor='confirmPassword'
@@ -121,7 +132,7 @@ function FormRegister() {
 				<strong className="text-xs min-500:text-sm">¿Ya tienes una cuenta?</strong>
 				<Link to={'/login'} className="text-xs min-500:text-sm text-cyan-700/80 hover:font-bold">Inicia sesión</Link>
 			</div>
-			<button className="mx-auto bg-cyan-700 text-sky-50 py-1 px-10 rounded-lg  hover:scale-110" disabled={loading}>Registrar</button>
+			<button className="mx-auto bg-cyan-700 text-sky-50 py-1 px-10 rounded-lg  hover:scale-110 disabled:opacity-50 disabled:scale-100" disabled={loading}>Registrar</button>
 		</form>
 	)
 }
