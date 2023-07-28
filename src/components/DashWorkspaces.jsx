@@ -2,52 +2,19 @@ import { useState } from 'react'
 import CardWorkspace from './CardWorkspace'
 import { MdAddBox } from 'react-icons/md'
 import FormWorkspace from './FormWorkspace'
-
-const workspaces = [
-	{
-		_id: '64b5e51e038f5f29094119a7',
-		title: 'Oficina',
-		description:
-			"Una oficina ideal para programadores, zona wifi, pc's y laptops disponibles para su uso",
-		address: 'Municipio san Rafael de carvajal, valera estado trujillo',
-		lat: '9.297612',
-		lon: '-70.615162',
-		price: 0
-	},
-	{
-		_id: '64b5e51e038f5f29094119a8',
-		title: 'Aula',
-		description:
-			"Una oficina ideal para programadores, zona wifi, pc's y laptops disponibles para su uso",
-		address: 'Valera/C.C Plaza',
-		lat: '9.297612',
-		lon: '-70.615162',
-		price: 18
-	},
-	{
-		_id: '64b5e51e038f5f29094119a9',
-		title: 'Salon',
-		description:
-			"Una oficina ideal para programadores, zona wifi, pc's y laptops disponibles para su uso",
-		address: 'Valera/C.C Plaza',
-		lat: '9.297612',
-		lon: '-70.615162',
-		price: 20
-	},
-	{
-		_id: '64b5e51e038f5f29094119ab',
-		title: 'Oficina',
-		description:
-			"Una oficina ideal para programadores, zona wifi, pc's y laptops disponibles para su uso",
-		address: 'Valera/C.C Plaza',
-		lat: '9.297612',
-		lon: '-70.615162',
-		price: 15
-	}
-]
+import { useQuery } from '@apollo/client'
+import { GET_WORKSPACES } from '../graphql/workspaces'
+import { toastError } from '../utils/toasts'
+import LoaderDashWorks from './LoaderDashWorks'
 
 function DashWorkspaces() {
    const [modalCreate, setModalCreate] = useState(false)
+	const { loading, error, data } = useQuery(GET_WORKSPACES);
+
+	if (error?.message) {
+		toastError(error?.message)
+	}
+
 	return (
 		<main className='flex flex-col py-5 gap-5 pb-96 md:pb-80 min-900:pb-72 lg:pb-60'>
 			<h1 className='relative text-2xl sm:text-3xl text-center font-bold'>
@@ -67,18 +34,22 @@ function DashWorkspaces() {
 					</button>
 				</div>
 			</h1>
-			<section className='grid sm:grid-cols-2 min-[950px]:grid-cols-3 justify-items-center px-10 gap-10'>
-				{workspaces.length === 0 ? (
-					<strong className="text-lg col-span-full">No hay espacios de trabajo para mostrar</strong>
-				) : (
-					workspaces.map(workspace => (
-						<CardWorkspace
-							key={workspace._id}
-							data={workspace}
-						/>
-					))
-				)}
-			</section>
+			{loading ? (
+				<LoaderDashWorks/>
+			) : (
+				<section className='grid sm:grid-cols-2 min-[950px]:grid-cols-3 justify-items-center px-10 gap-10'>
+					{data?.getWorkspaces.length === 0 ? (
+						<strong className="text-lg col-span-full">No hay espacios de trabajo para mostrar</strong>
+					) : (
+						data?.getWorkspaces.map(workspace => (
+							<CardWorkspace
+								key={workspace._id}
+								data={workspace}
+							/>
+						))
+					)}
+				</section>
+			)}
 			{modalCreate && (
 				<FormWorkspace setShowForm={setModalCreate}/>
 			)}

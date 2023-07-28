@@ -2,8 +2,10 @@ import PropTypes from 'prop-types'
 
 function ModalDelete({ setModalDelete, peticion, id }) {
    const handleConfirm = () => {
-      peticion(id)
-      setModalDelete()
+      peticion({
+         variables: { id }
+      })
+      setModalDelete(false)
    }
    return (
       <section className='fixed z-10 bottom-0 right-0 left-0 top-0 bg-black/50 flex justify-center items-center p-5'>

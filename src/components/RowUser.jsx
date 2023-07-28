@@ -1,12 +1,20 @@
-import { BsPencilSquare, BsTrash3Fill } from 'react-icons/bs'
-import PropTypes from 'prop-types'
 import { useState } from 'react'
+import { useMutation } from '@apollo/client'
+import { BsPencilSquare, BsTrash3Fill } from 'react-icons/bs'
+import { DELETE_USER, GET_USERS } from '../graphql/users'
 import RowUserEdit from './RowUserEdit'
 import ModalDelete from './ModalDelete'
+import PropTypes from 'prop-types'
 
 function RowUser({ user }) {
    const [modalDelete, setModalDelete] = useState(false)
    const [editing, setEditing] = useState(false)
+   const [deleteUser] = useMutation(DELETE_USER, {
+		refetchQueries: [
+			GET_USERS,
+			'GetUsers'
+		]
+	})
 
    return (
       <>
@@ -34,7 +42,7 @@ function RowUser({ user }) {
             </article>
          )}
          {modalDelete && (
-            <ModalDelete setModalDelete={setModalDelete} id={user._id}/>
+            <ModalDelete setModalDelete={setModalDelete} peticion={deleteUser} id={user._id}/>
          )}
       </>
    )

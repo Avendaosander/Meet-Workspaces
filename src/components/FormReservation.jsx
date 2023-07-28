@@ -5,7 +5,7 @@ function FormReservation({ setShowForm }) {
 	const fechaActual = formatearFechaInput(new Date())
 	const precio = 'FREE'
 	return (
-		<article className='fixed top-0 h-screen w-full bg-black/50 z-10 p-5 flex justify-center items-center'>
+		<article className='fixed top-0 h-screen w-full bg-black/50 z-50 p-5 flex justify-center items-center'>
 			<form className='flex flex-col gap-8 px-5 bg-cyan-100 py-10 rounded-xl ring-2 ring-sky-700 w-[300px] min-500:w-[400px]'>
 				<h2 className='text-center text-2xl font-bold'>Reservación</h2>
 				<div className='relative z-0 w-full '>

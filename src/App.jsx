@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { UserContext } from "./context/userContext";
+import { Toaster } from "react-hot-toast";
 import ProtectedRouter from "./components/ProtectedRouter";
 import Homepage from "./pages/Homepage";
 import Login from "./pages/Login";
@@ -29,6 +30,10 @@ function App() {
 						<Route path="/dashboard" element={<Dashboard/>}/>
 					</Route>
 				</Routes>
+				<Toaster
+					position="bottom-right"
+					reverseOrder={false}
+				/>
 			</BrowserRouter>
 		</>
 	)

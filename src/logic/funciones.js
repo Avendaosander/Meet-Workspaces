@@ -18,3 +18,24 @@ export const truncatedText = (texto) => {
    // Agregar los tres puntos suspensivos si el texto es mayor del limite
    return truncatedResult.length < limit ? truncatedResult : `${truncatedResult}...`;
 }
+
+export const sortDays = (dias) => {
+   const orden = ['Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab', 'Dom'];
+   
+   // Hace una copia del array
+   const diasOrdenados = [...dias];
+   
+   return diasOrdenados.sort((a, b) => {
+      return orden.indexOf(a) - orden.indexOf(b); 
+   });
+}
+
+export const validateLng = (lng) => {
+   const longRegexp = /^-?((0?\d{1,2}\.\d+)|([1-9]\d?|1[0-7]\d)(\.\d+)?)$/
+   return longRegexp.test(lng)
+}
+
+export const validateLat = (lat) => {
+   const latRegexp = /^-?((0?\d{1,2}\.\d+)|([1-8]?\d(\.\d+)?)|(90(\.0+)?))$/
+   return latRegexp.test(lat)
+}
