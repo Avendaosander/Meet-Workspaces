@@ -1,26 +1,27 @@
 import { BsFillCalendarWeekFill, BsFillPeopleFill, BsPencilSquare, BsTrash3Fill } from 'react-icons/bs'
-import { ordenarDias, truncatedText } from '../logic/funciones'
+import { sortDays, truncatedText } from '../logic/funciones'
 import PropTypes from 'prop-types'
 import { FaLocationDot } from 'react-icons/fa6'
 import { useState } from 'react'
 import ModalDelete from './ModalDelete'
 import FormWorkspace from './FormWorkspace'
 import { BiSolidTimeFive } from 'react-icons/bi'
+import { DELETE_WORKSPACE, GET_WORKSPACES } from '../graphql/workspaces'
+import { useMutation } from '@apollo/client'
 
 function CardWorkspace({ data }) {
    const [modalEdit, setModalEdit] = useState(false)
    const [modalDelete, setModalDelete] = useState(false)
+   const [deleteWorkspace] = useMutation(DELETE_WORKSPACE, {
+		refetchQueries: [
+			GET_WORKSPACES,
+			'GetWorkspaces'
+		]
+	})
+
    const precio = data.price === 0 ? 'FREE' : `$${data.price}`
    
-   const dias = ordenarDias([
-      "Lun",
-      "Vie", 
-      "Jue",
-      "Mie",
-      "Dom",
-      "Mar",
-      "Sab"
-   ])
+   const dias = sortDays(data.weekdays)
    return (
       <>
          <article className='flex flex-col gap-5 p-5 bg-cyan-100 shadow-cards text-blue-950 rounded-xl max-w-[400px] w-full mx-auto text-sm sm:text-base md:text-lg'>
@@ -29,7 +30,7 @@ function CardWorkspace({ data }) {
             
             <div className="flex items-center justify-center gap-2">
                <BsFillPeopleFill className='min-w-[14px]'/>
-               <p className='font-medium'>Max. 10 Personas</p>
+               <p className='font-medium'>Max. {data.capacity} Personas</p>
             </div>
             <div className="flex items-center justify-center font-semibold gap-2">
                <FaLocationDot className='min-w-[14px]'/>
@@ -46,7 +47,7 @@ function CardWorkspace({ data }) {
                </div>
                <div className="flex items-center gap-2">
                   <BiSolidTimeFive/>
-                  <p className='font-medium'>7:00 am - 9:00 pm</p>
+                  <p className='font-medium'>{data.from} - {data.to}</p>
                </div>
             </article>
             <p className={`${precio === 'FREE' ? 'font-bold italic text-lg md:text-2xl text-center text-green-600' : 'font-bold text-center'}`}>{precio}</p>
@@ -73,10 +74,10 @@ function CardWorkspace({ data }) {
             </div>
          </article>
          {modalDelete && (
-            <ModalDelete setModalDelete={setModalDelete} id={data._id}/>
+            <ModalDelete setModalDelete={setModalDelete} peticion={deleteWorkspace} id={data._id}/>
          )}
          {modalEdit && (
-            <FormWorkspace setShowForm={setModalEdit} id={data._id}/>
+            <FormWorkspace setShowForm={setModalEdit} dataUpdate={data}/>
          )}
       </>
    )
