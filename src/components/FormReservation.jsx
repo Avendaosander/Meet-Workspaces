@@ -1,9 +1,28 @@
+import { useState } from 'react'
 import { formatearFechaInput } from '../logic/funciones'
 import PropTypes from 'prop-types'
 
-function FormReservation({ setShowForm }) {
+function FormReservation({ setShowForm, dataUpdate }) {
 	const fechaActual = formatearFechaInput(new Date())
 	const precio = 'FREE'
+	const [reser,setReser]=useState({
+		date:"",
+		hour:"",
+		duration:"",
+		price:200
+	})
+	const handleChange = (e) => {
+		setReser({
+			...reser,
+			[e.target.name]: e.target.value
+		})
+	}
+	function handleSelect(e){
+        setReser({
+            ...reser,
+            duration: e.target.value
+        })
+    }
 	return (
 		<article className='fixed top-0 h-screen w-full bg-black/50 z-50 p-5 flex justify-center items-center'>
 			<form className='flex flex-col gap-8 px-5 bg-cyan-100 py-10 rounded-xl ring-2 ring-sky-700 w-[300px] min-500:w-[400px]'>
@@ -13,6 +32,8 @@ function FormReservation({ setShowForm }) {
 						type='date'
 						name='date'
 						min={fechaActual}
+						onChange={handleChange}
+						value={reser.date}
 						id='date'
 						className='block py-2 w-full text-blue-950 bg-cyan-200 ring-1 ring-cyan-700/30 rounded-lg px-2 focus:outline-none focus:ring-0 peer'
 						placeholder=' '
@@ -31,10 +52,12 @@ function FormReservation({ setShowForm }) {
 						name='hour'
 						min={'07:00'}
 						max={'21:00'}
+						value={reser.hour}
 						step={300}
 						id='hour'
 						className='block py-2 w-full text-blue-950 bg-cyan-200 ring-1 ring-cyan-700/30 rounded-lg px-2 focus:outline-none focus:ring-0 peer'
 						placeholder=' '
+						onChange={handleChange}
 						required
 					/>
 					<label
@@ -50,6 +73,8 @@ function FormReservation({ setShowForm }) {
 						id='duration'
 						className='block py-2 w-full text-blue-950 bg-cyan-200 ring-1 ring-cyan-700/30 rounded-lg px-2 focus:outline-none focus:ring-0 peer'
 						placeholder=' '
+						onChange={(e)=>handleSelect(e)}
+						value={reser.duration}
 						required
 					>
 						<option
