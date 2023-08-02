@@ -3,11 +3,16 @@ import mapboxgl, { Marker } from 'mapbox-gl'
 import { useEffect, useRef, useState } from 'react'
 import { BsSearch } from 'react-icons/bs'
 import SearchResult from './SearchResult'
+import { useQuery } from '@apollo/client'
+import { GET_WORKSPACES } from '../graphql/workspaces'
+import { toastError } from '../utils/toasts'
+import { findWorkspaceByValue, truncatedText } from '../logic/funciones'
 const { VITE_MAP_ACCESS_TOKEN } = import.meta.env
+import PropTypes from 'prop-types'
 
 mapboxgl.accessToken = VITE_MAP_ACCESS_TOKEN
 
-function Map() {
+function Map({ getWorkspace }) {
 	const mapContainer = useRef()
 	const map = useRef()
 	const marker = useRef()
@@ -16,9 +21,17 @@ function Map() {
 	const [place, setPlace] = useState('')
 	const [results, setResults] = useState([])
 	const [center, setCenter] = useState([-65.801997444749, 7.61957014788959])
+	const { error, data } = useQuery(GET_WORKSPACES);
+
+	if (error?.message) {
+		toastError(error?.message)
+	}
 
 	const handleChange = e => {
 		setPlace(e.target.value)
+		const peticion = findWorkspaceByValue(data.getWorkspaces, e.target.value)
+		setResults(peticion)
+		setResultsVisible(true)
 	}
 
 	const positionInitial = () => {
@@ -26,16 +39,12 @@ function Map() {
 	}
 
 	const search = async e => {
-		// Integrar debounce ❓
 		e.preventDefault()
 		if (place.trim() === '') return
-		const API = `https://api.mapbox.com/geocoding/v5/mapbox.places/${place}.json?country=ve&limit=5&types=address%2Ccountry%2Cregion%2Cplace%2Cdistrict%2Clocality%2Cneighborhood%2Cpostcode%2Cpoi&language=es&access_token=${VITE_MAP_ACCESS_TOKEN}`
 
-		const peticion = await fetch(API)
-			.then(res => res.json())
-			.then(res => res)
+		const peticion = findWorkspaceByValue(data.getWorkspaces, place)
 
-		setResults(peticion.features)
+		setResults(peticion)
 		setResultsVisible(true)
 	}
 
@@ -75,19 +84,45 @@ function Map() {
 			})
 				.setLngLat(center)
 				.setHTML(
-					`<strong>Titulo del espacio de trabajo</strong>\n<p>Descripcion truncada del espacio de trabajo</p>`
+					`<strong>Ubicacion actual</strong>\n<p>Aqui te encuentras ahora</p>`
 				)
 				.addTo(map.current)
 
 			if (marker.current) {
 				marker.current.remove()
 			}
-			marker.current = new Marker({ color: '#0369a1' })
+			marker.current = new Marker({ color: '#0e7490' })
 				.setLngLat(center)
 				.addTo(map.current)
 				.setPopup(popup.current)
 		}
 	}, [center, map, marker])
+
+	useEffect(() => {
+		if (data?.getWorkspaces) {
+			data.getWorkspaces.map(workspace => {
+				const popup = new mapboxgl.Popup({
+					className: 'text-blue-950 text-sm',
+					maxWidth: '300px',
+					closeButton: false,
+					closeOnMove: true
+				})
+					.setLngLat([workspace.lat, workspace.lon])
+					.setHTML(
+						`<strong>${workspace.title}</strong>\n<p>${truncatedText(workspace.description)}</p>`
+					)
+	
+				const hola=new Marker({ color: '#0369a1' })
+					.setLngLat([workspace.lat, workspace.lon])
+					.addTo(map.current)
+					.setPopup(popup)
+					.on('click', () => {console.log('hola')})
+	
+				hola.getElement().addEventListener('click', () => {getWorkspace({variables: {id:workspace._id}})})
+	
+			})
+		}
+	},[data, getWorkspace])
 
 	return (
 		<div className='font-Laila h-full '>
@@ -114,7 +149,7 @@ function Map() {
 					<div className='mt-2 bg-cyan-50 w-60 md:w-[400px] rounded-lg text-blue-950'>
 						{results.map(place => (
 							<SearchResult
-								key={place.id}
+								key={place._id}
 								place={place}
 								map={map}
 								marker={marker}
@@ -147,6 +182,10 @@ function Map() {
 			</button>
 		</div>
 	)
+}
+
+Map.propTypes = {
+	getWorkspace: PropTypes.func.isRequired
 }
 
 export default Map
