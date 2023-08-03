@@ -1,9 +1,10 @@
 import { useContext, useState } from 'react'
 import { UserContext } from '../context/userContext'
+import { useMutation } from '@apollo/client'
+import { DELETE_COMMENT } from '../graphql/comments'
 import { VscClose } from 'react-icons/vsc'
 import { BsChevronCompactLeft, BsChevronCompactRight } from 'react-icons/bs'
-// import { decodeToken } from 'react-jwt'
-// import ModalDelete from './ModalDelete'
+import { decodeToken } from 'react-jwt'
 import ModalDelete from './ModalDelete'
 import PropTypes from 'prop-types'
 
@@ -12,11 +13,14 @@ const CarouselComments = ({ comments }) => {
    const [currentIndex, setCurrentIndex] = useState(0)
    const [deleteItem, setDeleteItem] = useState(null)
    const [modalDelete, setModalDelete] = useState(false)
-   // const userID = decodeToken(user.token).id
+   const userID = decodeToken(user.token).id
 
-   const hasDeleteCondition = (testimonialID) => {
-      return true
-      // return user.rol === 'Admin' || userID === testimonialID
+   const [deleteComment] = useMutation(DELETE_COMMENT, {
+		refetchQueries: ['GetWorkspace']
+	})
+
+   const hasDeleteCondition = (commentUserID) => {
+      return user.rol === 'Admin' || userID === commentUserID
    }
 
    const handleModalDelete = (data) => {
@@ -76,7 +80,7 @@ const CarouselComments = ({ comments }) => {
             </article>
          )}
          {modalDelete && 
-            <ModalDelete setModalDelete={setModalDelete} id={deleteItem} />
+            <ModalDelete setModalDelete={setModalDelete} id={deleteItem} peticion={deleteComment}/>
          }
       </>
    )
