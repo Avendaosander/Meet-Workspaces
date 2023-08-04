@@ -18,7 +18,6 @@ function CardWorkspace({ data }) {
 			'GetWorkspaces'
 		]
 	})
-
    const precio = data.price === 0 ? 'FREE' : `$${data.price}`
    
    const dias = sortDays(data.weekdays)
