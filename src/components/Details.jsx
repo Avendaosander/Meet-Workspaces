@@ -85,7 +85,7 @@ function Details({ workspace, comments }) {
 			</button>
 			<FormComments id={workspace._id} />
 			<CarouselComments comments={comments} />
-			{showForm && <FormReservation setShowForm={setShowForm} />}
+			{showForm && <FormReservation setShowForm={setShowForm} workspace={workspace} />}
 		</aside>
 	)
 }

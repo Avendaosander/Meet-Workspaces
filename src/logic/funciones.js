@@ -39,3 +39,20 @@ export const validateLat = (lat) => {
    const latRegexp = /^-?((0?\d{1,2}\.\d+)|([1-8]?\d(\.\d+)?)|(90(\.0+)?))$/
    return latRegexp.test(lat)
 }
+
+const searchFields = ["title", "description", "address", "lat", "lon"]
+
+export const findWorkspaceByValue = (workspacesData, value) => {
+   const matchingWorkspaces = workspacesData.filter(workspace => {
+      for (const field of searchFields) {
+         const fieldValue = workspace[field];
+
+         if (fieldValue && fieldValue.toString().toLowerCase().includes(value.toLowerCase())) {
+            return true;
+         }
+      }
+      return false;
+   });
+
+   return matchingWorkspaces;
+}

@@ -31,6 +31,7 @@ export const GET_WORKSPACE = gql`
             lon
             weekdays
             from
+            price
             to
          }
          comments {

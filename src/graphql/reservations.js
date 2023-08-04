@@ -1,22 +1,40 @@
 import { gql } from "@apollo/client";
 
-export const GET_RESEVATIONS = gql`
-   query GetReservations {
-        getReservations {
-         _id
-         user
-         workspace
-         date
-         hour
-         price
-         duration
-      }
+export const GET_RESERVATIONS = gql`
+query GetReservations {
+   getReservations {
+     _id
+     user {
+       _id
+       username
+     }
+     workspace {
+       _id
+       title
+       address
+     }
+     date
+     hour
+     duration
+     price
    }
+ }
 `
 
 export const CREATE_RESERVATION = gql`
-   mutation CreateReservation($date: String!,$hour: String!,$duration: String!, $price: Int!) {
-    createReservation(date: $date,hour: $hour,duration: $duration, price: $price) {
+   mutation CreateReservation($workspace: ID!, $date: String!,$hour: String!,$duration: String!, $price: Int!) {
+    createReservation(workspace: $workspace,date: $date,hour: $hour,duration: $duration, price: $price) {
+         _id
+         user{
+            _id
+            username
+         }
+         workspace{
+            _id
+            title
+            address
+            price
+         }
          date
          hour
          duration
