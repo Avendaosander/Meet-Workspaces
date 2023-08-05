@@ -1,6 +1,6 @@
 import { useContext } from 'react'
-import FLAG_SPAIN from '../assets/espana.jpg'
-import FLAG_USA from '../assets/estados-unidos.jpg'
+import FLAG_SPAIN from '../assets/espana.png'
+import FLAG_USA from '../assets/estados-unidos.png'
 import { LanguageContext } from '../context/languageContext'
 
 const SwitchLang = () => {
