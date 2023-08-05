@@ -9,10 +9,12 @@ import { toastError } from '../utils/toasts'
 import { findWorkspaceByValue, truncatedText } from '../logic/funciones'
 const { VITE_MAP_ACCESS_TOKEN } = import.meta.env
 import PropTypes from 'prop-types'
+import { useTranslation } from 'react-i18next'
 
 mapboxgl.accessToken = VITE_MAP_ACCESS_TOKEN
 
-function Map({ getWorkspace }) {
+function Map({ getWorkspace, setDetails }) {
+	const {t} = useTranslation(['map'])
 	const mapContainer = useRef()
 	const map = useRef()
 	const marker = useRef()
@@ -84,7 +86,7 @@ function Map({ getWorkspace }) {
 			})
 				.setLngLat(center)
 				.setHTML(
-					`<strong>Ubicacion actual</strong>\n<p>Aqui te encuentras ahora</p>`
+					`<strong>${t('my_location_strong')}</strong>\n<p>${t('my_location_text')}</p>`
 				)
 				.addTo(map.current)
 
@@ -118,11 +120,18 @@ function Map({ getWorkspace }) {
 					.setPopup(popup)
 					.on('click', () => {console.log('hola')})
 	
-				hola.getElement().addEventListener('click', () => {getWorkspace({variables: {id:workspace._id}})})
+				hola.getElement().addEventListener('click', () => {
+					getWorkspace({
+						variables: { 
+							id:workspace._id
+						}
+					})
+					setDetails(true)
+				})
 	
 			})
 		}
-	},[data, getWorkspace])
+	},[data, getWorkspace, setDetails])
 
 	return (
 		<div className='font-Laila h-full '>
@@ -134,7 +143,7 @@ function Map({ getWorkspace }) {
 					<input
 						type='text'
 						name='search_text'
-						placeholder='Busca por ciudad o direccion'
+						placeholder={t('placeholder_text')}
 						value={place}
 						onChange={handleChange}
 						onFocus={() => setResultsVisible(true)}
@@ -163,8 +172,8 @@ function Map({ getWorkspace }) {
 					resultsVisible && (
 						<div className='mt-2 bg-cyan-50 w-60 md:w-[400px] rounded-lg text-blue-950'>
 							<div className='px-5 py-2 border-b border-sky-700 last-of-type:border-0'>
-								<strong>No encontrado</strong>
-								<p>No se encontró el place: {place}</p>
+								<strong>{t('not_results_strong')}</strong>
+								<p>{t('not_results_text')} {place}</p>
 							</div>
 						</div>
 					)
@@ -178,14 +187,15 @@ function Map({ getWorkspace }) {
 				className='absolute right-5 bottom-5 p-2 bg-cyan-700 text-sky-50 rounded-lg hover:scale-110'
 				onClick={positionInitial}
 			>
-				Mi Ubicacion
+				{t('my_location_button')}
 			</button>
 		</div>
 	)
 }
 
 Map.propTypes = {
-	getWorkspace: PropTypes.func.isRequired
+	getWorkspace: PropTypes.func.isRequired,
+	setDetails: PropTypes.func.isRequired
 }
 
 export default Map

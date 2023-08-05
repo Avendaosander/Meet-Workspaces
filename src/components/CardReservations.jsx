@@ -5,12 +5,26 @@ import { BsFillCalendarWeekFill } from 'react-icons/bs'
 import { FaUserAlt } from 'react-icons/fa'
 import { FaLocationDot, FaMoneyBill1Wave } from 'react-icons/fa6'
 import ModalDelete from './ModalDelete'
+import { DELETE_RESERVATION } from '../graphql/reservations'
+import { useMutation } from '@apollo/client'
+import { useTranslation } from 'react-i18next'
+import { toastSuccess } from '../utils/toasts'
 
 function CardReservation({ data }) {
+	const {t} = useTranslation(['reservations'])
    const [modalDelete, setModalDelete] = useState(false)
+   const [deleteReservation, { data: dataDelete, loading, error, reset }] = useMutation(DELETE_RESERVATION, {
+		refetchQueries: ['GetReservations']
+	})
 
-   const precio = data.price === 0 ? 'FREE' : `$${data.price}`
+   const precio = data.price === 0 ? `${t('text_price')}` : `$${data.price}`
 
+   if (dataDelete) {
+      setModalDelete(false)
+      toastSuccess(`${t('delete_success')}`)
+      reset()
+   }
+   
    return (
       <>
          <article className='flex flex-col gap-3 p-5 bg-cyan-100 shadow-cards rounded-xl max-w-[400px] w-full mx-auto text-sm sm:text-base md:text-lg font-medium text-blue-950 font-Poppins'>
@@ -37,7 +51,7 @@ function CardReservation({ data }) {
             </div>
             <div className="flex items-center gap-2">
                <FaMoneyBill1Wave/>
-               <p className={`${precio === 'FREE' ? 'font-bold italic text-lg md:text-2xl text-green-600' : 'font-bold'}`}>{precio}</p>
+               <p className={`${data.price === 0 ? 'font-bold italic text-lg md:text-2xl text-green-600' : 'font-bold'}`}>{precio}</p>
             </div>
             <div className='flex justify-around'>
                <button
@@ -45,12 +59,12 @@ function CardReservation({ data }) {
                   disabled={modalDelete}
                   className='bg-rose-600 text-sky-50 px-6 rounded-md disabled:opacity-50'
                >
-                  Cancelar
+                  {t('button_cancel')}
                </button>
             </div>
          </article>
          {modalDelete && (
-            <ModalDelete setModalDelete={setModalDelete} id={data._id}/>
+            <ModalDelete setModalDelete={setModalDelete} peticion={deleteReservation} id={data._id} actions={{ loading, error, reset }}/>
          )}
       </>
    )

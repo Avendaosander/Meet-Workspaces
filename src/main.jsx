@@ -6,6 +6,8 @@ import './index.css'
 import { ApolloClient, ApolloProvider, InMemoryCache, createHttpLink } from '@apollo/client'
 const { VITE_URL_BACKEND } = import.meta.env
 import { setContext } from '@apollo/client/link/context';
+import { LanguageProvider } from './context/languageContext.jsx'
+import './config/i18next.config.js'
 
 const httpLink = createHttpLink({
   uri: VITE_URL_BACKEND,
@@ -33,9 +35,11 @@ const client = new ApolloClient({
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <ApolloProvider client={client}>
-      <UserProvider>
-        <App />
-      </UserProvider>
+      <LanguageProvider>
+        <UserProvider>
+          <App />
+        </UserProvider>
+      </LanguageProvider>
     </ApolloProvider>
   </React.StrictMode>,
 )

@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { Suspense, useContext } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { UserContext } from "./context/userContext";
 import { Toaster } from "react-hot-toast";
@@ -14,7 +14,7 @@ import VerifyRouter from "./components/VerifyRouter";
 function App() {
    const { user } = useContext(UserContext)
 	return (
-		<>
+		<Suspense fallback={'Cargando traducciones'}>
 			<BrowserRouter>
 				<Routes>
 					<Route path="/" element={<Homepage/>}/>
@@ -35,7 +35,7 @@ function App() {
 					reverseOrder={false}
 				/>
 			</BrowserRouter>
-		</>
+		</Suspense>
 	)
 }
 

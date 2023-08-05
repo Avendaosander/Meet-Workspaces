@@ -1,0 +1,12 @@
+{
+   "text": "¿Necesitas un lugar para trabajar? ¡Tenemos lo que necesitas! Inicia sesión en Meet Workspace y encuentra el espacio ideal para ti.",
+   "title": "Inicia Sesión",
+   "label_username": "Nombre de usuario",
+   "label_password": "Contraseña",
+   "text_strong": "¿No tienes una cuenta?",
+   "text_link": "Crear cuenta",
+   "button_text": "Iniciar Sesión",
+   "toast_custom": "Bienvenido {{username}}",
+   "toast_error_username": "El campo Username no puede estar vacio",
+   "toast_error_password": "El campo Password no puede estar vacio"
+}

@@ -8,19 +8,31 @@ import FormWorkspace from './FormWorkspace'
 import { BiSolidTimeFive } from 'react-icons/bi'
 import { DELETE_WORKSPACE, GET_WORKSPACES } from '../graphql/workspaces'
 import { useMutation } from '@apollo/client'
+import { useTranslation } from 'react-i18next'
+import TooltipCustom from './TooltipCustom'
+import { toastSuccess } from '../utils/toasts'
 
 function CardWorkspace({ data }) {
+	const {t} = useTranslation(['cardWorkspace'])
    const [modalEdit, setModalEdit] = useState(false)
    const [modalDelete, setModalDelete] = useState(false)
-   const [deleteWorkspace] = useMutation(DELETE_WORKSPACE, {
+   const [deleteWorkspace, { data: dataDelete, loading, error, reset }] = useMutation(DELETE_WORKSPACE, {
 		refetchQueries: [
 			GET_WORKSPACES,
 			'GetWorkspaces'
 		]
 	})
-   const precio = data.price === 0 ? 'FREE' : `$${data.price}`
+
+   const precio = data.price === 0 ? `${t('text_price')}` : `$${data.price}`
    
    const dias = sortDays(data.weekdays)
+
+   if (dataDelete) {
+      setModalDelete(false)
+      toastSuccess(`${t('delete_success')}`)
+      reset()
+   }
+
    return (
       <>
          <article className='flex flex-col gap-5 p-5 bg-cyan-100 shadow-cards text-blue-950 rounded-xl max-w-[400px] w-full mx-auto text-sm sm:text-base md:text-lg'>
@@ -29,7 +41,7 @@ function CardWorkspace({ data }) {
             
             <div className="flex items-center justify-center gap-2">
                <BsFillPeopleFill className='min-w-[14px]'/>
-               <p className='font-medium'>Max. {data.capacity} Personas</p>
+               <p className='font-medium'>Max. {data.capacity} {t('max_people')}</p>
             </div>
             <div className="flex items-center justify-center font-semibold gap-2">
                <FaLocationDot className='min-w-[14px]'/>
@@ -49,31 +61,31 @@ function CardWorkspace({ data }) {
                   <p className='font-medium'>{data.from} - {data.to}</p>
                </div>
             </article>
-            <p className={`${precio === 'FREE' ? 'font-bold italic text-lg md:text-2xl text-center text-green-600' : 'font-bold text-center'}`}>{precio}</p>
+            <p className={`${data.price === 0 ? 'font-bold italic text-lg md:text-2xl text-center text-green-600' : 'font-bold text-center'}`}>{precio}</p>
             
             <div className='flex justify-evenly'>
                <button
-                  className='relative group/workspace text-cyan-700 text-2xl px-6 rounded-md'
+                  className='relative group text-cyan-700 text-2xl px-6 rounded-md'
                   onClick={() => setModalEdit(true)}
                >
-                  <BsPencilSquare className='hover:scale-125 group-disabled/workspace:opacity-50 text-2xl text-green-700' />
-                  <span className='hidden group-hover/workspace:block bg-blue-950 text-sky-50 text-sm rounded py-1 px-2 absolute left-1/2 transform -translate-x-1/2 translate-y-4 transition-opacity duration-300'>
-                     Editar
-                  </span>
+                  <BsPencilSquare className='hover:scale-125 group-disabled:opacity-50 text-2xl text-green-700' />
+                  <TooltipCustom position='buttom'>
+                     {t('button_edit')}
+                  </TooltipCustom>
                </button>
                <button
-                  className='relative group/workspace text-cyan-700 text-2xl px-6 rounded-md'
+                  className='relative group text-cyan-700 text-2xl px-6 rounded-md'
                   onClick={() => setModalDelete(true)}
                >
-                  <BsTrash3Fill className='hover:scale-125 group-disabled/workspace:opacity-50 text-2xl text-rose-600' />
-                  <span className='hidden group-hover/workspace:block bg-blue-950 text-sky-50 text-sm rounded py-1 px-2 absolute left-1/2 transform -translate-x-1/2 translate-y-4 transition-opacity duration-300'>
-                     Eliminar
-                  </span>
+                  <BsTrash3Fill className='hover:scale-125 group-disabled:opacity-50 text-2xl text-rose-600' />
+                  <TooltipCustom position='buttom'>
+                     {t('button_delete')}
+                  </TooltipCustom>
                </button>
             </div>
          </article>
          {modalDelete && (
-            <ModalDelete setModalDelete={setModalDelete} peticion={deleteWorkspace} id={data._id}/>
+            <ModalDelete setModalDelete={setModalDelete} peticion={deleteWorkspace} id={data._id} actions={{ loading, error, reset }}/>
          )}
          {modalEdit && (
             <FormWorkspace setShowForm={setModalEdit} dataUpdate={data}/>

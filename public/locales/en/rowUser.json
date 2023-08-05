@@ -1,0 +1,10 @@
+{
+   "button_edit": "Edit",
+   "button_delete": "Delete",
+   "button_confirm": "Confirm",
+   "button_cancel": "Cancel",
+   "label_username": "Username",
+   "label_email": "Email",
+   "msg_warning": "You have not edited any data",
+   "msg_success": "Edited successfully"
+}

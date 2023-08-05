@@ -1,0 +1,10 @@
+{
+   "text_login": "Login",
+   "text_register": "Register",
+   "text_workspaces": "Search Spaces",
+   "text_reservations": "My Reservations",
+   "text_dashboard": "Manage",
+   "button_homepage": "Homepage",
+   "button_translate": "Change Language",
+   "button_logout": "Logout"
+}

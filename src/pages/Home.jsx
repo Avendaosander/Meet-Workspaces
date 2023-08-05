@@ -14,13 +14,13 @@ function Home() {
 	if (error?.message) {
 		toastError(error?.message)
 	}
-	console.log
+
 	return (
 		<div className='min-h-screen flex flex-col'>
 			<Nav/>
 			<main className='relative flex-grow flex flex-col'>
 				<section className='h-full w-full flex-grow'>
-					<Map getWorkspace={getWorkspace}/>
+					<Map getWorkspace={getWorkspace} setDetails={setDetails}/>
 				</section>
 				<section className='fixed md:absolute bottom-0 md:right-0 md:h-full z-50 flex flex-col md:flex-row md: items-center w-full md:w-auto md:max-w-[40%]'>
 					<button
