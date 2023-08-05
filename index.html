@@ -3,12 +3,24 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/webp" href="/Logo-Meet.webp" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="Alexander Avendaño">
     <meta name="keywords" content="React, Vite, Tailwindcss, React Router Dom">
+    <meta name="theme-color" content="#0369a1">
     <title>Meet Workspaces</title>
+    <link rel="manifest" href="/manifest.json">
+    
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/serviceWorkerRegister.js')
+            .then(registration => console.log('Service worker registered'))
+            .catch(error => console.error('Error registering service worker', error));
+        });
+      }
+    </script>
   </head>
-  <body class="bg-cyan-50 font-Raleway">
+  <body class="bg-cyan-50 font-Raleway selection:bg-cyan-700 selection:text-sky-50">
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>

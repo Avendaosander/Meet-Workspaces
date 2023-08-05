@@ -30,6 +30,18 @@ export const sortDays = (dias) => {
    });
 }
 
+export const validateDateOnDayOfWeek = (fecha, weekdays) => {
+   const diaDeSemana = ['Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab', 'Dom'];
+   const fechaObj = new Date(fecha);
+   const diaSemanaFecha = diaDeSemana[fechaObj.getDay()];
+
+   if (!weekdays.includes(diaSemanaFecha)) {
+      return false
+   }
+
+   return true;
+}
+
 export const validateLng = (lng) => {
    const longRegexp = /^-?((0?\d{1,2}\.\d+)|([1-9]\d?|1[0-7]\d)(\.\d+)?)$/
    return longRegexp.test(lng)
