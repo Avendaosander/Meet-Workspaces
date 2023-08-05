@@ -4,9 +4,10 @@ import { useMutation } from '@apollo/client'
 import { CREATE_WORKSPACE, GET_WORKSPACES, UPDATE_WORKSPACE } from '../graphql/workspaces'
 import { toastCustom, toastError, toastSuccess } from '../utils/toasts'
 import { validateLat, validateLng } from '../logic/funciones'
+import { useTranslation } from 'react-i18next'
 
 function FormWorkspace({ setShowForm, dataUpdate = null }) {
-	// Debo refactorizar este componente ⚠️
+	const {t} = useTranslation(['formWorkspace'])
 	const [createWorkspace, { data, loading, error, reset }] = useMutation(
 		CREATE_WORKSPACE,
 		{
@@ -33,25 +34,27 @@ function FormWorkspace({ setShowForm, dataUpdate = null }) {
 	const handleSubmit = e => {
 		e.preventDefault()
 		if (workspace.title === '')
-			return toastError('El titulo no puede estar vacio')
+			return toastError(`${t('msg_warning_title')}`)
 		if (workspace.description === '')
-			return toastError('La descripcion no puede estar vacia')
+			return toastError(`${t('msg_warning_description')}`)
 		if (workspace.address === '')
-			return toastError('La direccion no puede estar vacia')
+			return toastError(`${t('msg_warning_address')}`)
 		if (workspace.lat === '')
-			return toastError('La latitud no puede estar vacia')
+			return toastError(`${t('msg_warning_lat')}`)
 		if (!validateLat(workspace.lat))
-			return toastError('La latitud no es valida')
+			return toastError(`${t('msg_warning_lat_validate')}`)
 		if (workspace.lon === '')
-			return toastError('la Longitud no puede estar vacia')
+			return toastError(`${t('msg_warning_lon')}`)
 		if (!validateLng(workspace.lon))
-			return toastError('la longitud no es valida')
+			return toastError(`${t('msg_warning_lon_validate')}`)
 		if (workspace.capacity === 0)
-			return toastError('La capacidad no puede ser 0')
+			return toastError(`${t('msg_warning_capacity')}`)
+		if (workspace.weekdays.length === 0)
+			return toastError(`${t('msg_warning_weekdays')}`)
 		if (workspace.from === '')
-			return toastError('La hora de abrir no puede estar vacio')
+			return toastError(`${t('msg_warning_from')}`)
 		if (workspace.to === '')
-			return toastError('La hora de cerrar no puede estar vacio')
+			return toastError(`${t('msg_warning_to')}`)
 
 		if (dataUpdate) {
 			let update = null
@@ -84,7 +87,7 @@ function FormWorkspace({ setShowForm, dataUpdate = null }) {
 					}
 				})
 			} else {
-				toastCustom('No has editado ningun dato', '⚠️', 'top-right')
+				toastCustom(`${t('msg_warning')}`, '⚠️', 'top-right')
 			}
 		} else {
 			createWorkspace({
@@ -106,12 +109,12 @@ function FormWorkspace({ setShowForm, dataUpdate = null }) {
 
 	if (data) {
 		setShowForm(false)
-		toastSuccess('Creado con exito')
+		toastSuccess(`${t('msg_success_create')}`)
 	}
 
 	if (dataEdit) {
 		setShowForm(false)
-		toastSuccess('Editado con exito')
+		toastSuccess(`${t('msg_success_edit')}`)
 	}
 
 	const handleChange = e => {
@@ -153,7 +156,7 @@ function FormWorkspace({ setShowForm, dataUpdate = null }) {
 				onSubmit={handleSubmit}
 			>
 				<h2 className='text-center text-2xl font-bold'>
-					Espacio de trabajo
+					{t('title')}
 				</h2>
 				<div className='relative z-0 w-full '>
 					<input
@@ -169,7 +172,7 @@ function FormWorkspace({ setShowForm, dataUpdate = null }) {
 						htmlFor='title'
 						className='absolute text-blue-950 duration-300 transform -translate-y-8 scale-75 top-1 z-10 origin-[0] peer-focus:left-0 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-1 peer-placeholder-shown:left-2 peer-focus:scale-75 peer-focus:-translate-y-7'
 					>
-						Titulo
+						{t('label_title')}
 					</label>
 				</div>
 				<div className='relative z-0 w-full '>
@@ -186,7 +189,7 @@ function FormWorkspace({ setShowForm, dataUpdate = null }) {
 						htmlFor='description'
 						className='absolute text-blue-950 duration-300 transform -translate-y-8 scale-75 top-1 z-10 origin-[0] peer-focus:left-0 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-1 peer-placeholder-shown:left-2 peer-focus:scale-75 peer-focus:-translate-y-7'
 					>
-						Descripción
+						{t('label_description')}
 					</label>
 				</div>
 				<div className='relative z-0 w-full '>
@@ -203,7 +206,7 @@ function FormWorkspace({ setShowForm, dataUpdate = null }) {
 						htmlFor='address'
 						className='absolute text-blue-950 duration-300 transform -translate-y-8 scale-75 top-1 z-10 origin-[0] peer-focus:left-0 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-1 peer-placeholder-shown:left-2 peer-focus:scale-75 peer-focus:-translate-y-7'
 					>
-						Dirección
+						{t('label_address')}
 					</label>
 				</div>
 				<div className='flex flex-col min-500:flex-row min-500:justify-between gap-8'>
@@ -221,7 +224,7 @@ function FormWorkspace({ setShowForm, dataUpdate = null }) {
 							htmlFor='lat'
 							className='absolute text-blue-950 duration-300 transform -translate-y-8 scale-75 top-1 z-10 origin-[0] peer-focus:left-0 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-1 peer-placeholder-shown:left-2 peer-focus:scale-75 peer-focus:-translate-y-7'
 						>
-							Latitud
+							{t('label_lat')}
 						</label>
 					</div>
 					<div className='relative z-0 w-full '>
@@ -238,7 +241,7 @@ function FormWorkspace({ setShowForm, dataUpdate = null }) {
 							htmlFor='lon'
 							className='absolute text-blue-950 duration-300 transform -translate-y-8 scale-75 top-1 z-10 origin-[0] peer-focus:left-0 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-1 peer-placeholder-shown:left-2 peer-focus:scale-75 peer-focus:-translate-y-7'
 						>
-							Longitud
+							{t('label_lng')}
 						</label>
 					</div>
 				</div>
@@ -259,7 +262,7 @@ function FormWorkspace({ setShowForm, dataUpdate = null }) {
 							htmlFor='capacity'
 							className='absolute text-blue-950 duration-300 transform -translate-y-8 scale-75 top-1 z-10 origin-[0] peer-focus:left-0 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-1 peer-placeholder-shown:left-2 peer-focus:scale-75 peer-focus:-translate-y-7'
 						>
-							Capacidad
+							{t('label_capacity')}
 						</label>
 					</div>
 					<div className='relative z-0 w-full '>
@@ -277,7 +280,7 @@ function FormWorkspace({ setShowForm, dataUpdate = null }) {
 							htmlFor='price'
 							className='absolute text-blue-950 duration-300 transform -translate-y-8 scale-75 top-1 z-10 origin-[0] peer-focus:left-0 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-1 peer-placeholder-shown:left-2 peer-focus:scale-75 peer-focus:-translate-y-7'
 						>
-							Precio ($)
+							{t('label_price')}
 						</label>
 					</div>
 				</div>
@@ -299,7 +302,7 @@ function FormWorkspace({ setShowForm, dataUpdate = null }) {
 							htmlFor='Lun'
 							className='bg-cyan-200 p-1 px-2 rounded-lg font-bold opacity-60 hover:bg-cyan-300 ring-2 ring-cyan-300 peer-checked:ring-sky-700 peer-checked:opacity-100'
 						>
-							Lun
+							{t('label_lun')}
 						</label>
 					</li>
 					<li>
@@ -318,7 +321,7 @@ function FormWorkspace({ setShowForm, dataUpdate = null }) {
 							htmlFor='Mar'
 							className='bg-cyan-200 p-1 px-2 rounded-lg font-bold opacity-60 hover:bg-cyan-300 ring-2 ring-cyan-300 peer-checked:ring-sky-700 peer-checked:opacity-100'
 						>
-							Mar
+							{t('label_mar')}
 						</label>
 					</li>
 					<li>
@@ -337,7 +340,7 @@ function FormWorkspace({ setShowForm, dataUpdate = null }) {
 							htmlFor='Mie'
 							className='bg-cyan-200 p-1 px-2 rounded-lg font-bold opacity-60 hover:bg-cyan-300 ring-2 ring-cyan-300 peer-checked:ring-sky-700 peer-checked:opacity-100'
 						>
-							Mie
+							{t('label_mie')}
 						</label>
 					</li>
 					<li>
@@ -356,7 +359,7 @@ function FormWorkspace({ setShowForm, dataUpdate = null }) {
 							htmlFor='Jue'
 							className='bg-cyan-200 p-1 px-2 rounded-lg font-bold opacity-60 hover:bg-cyan-300 ring-2 ring-cyan-300 peer-checked:ring-sky-700 peer-checked:opacity-100'
 						>
-							Jue
+							{t('label_jue')}
 						</label>
 					</li>
 					<li>
@@ -375,7 +378,7 @@ function FormWorkspace({ setShowForm, dataUpdate = null }) {
 							htmlFor='Vie'
 							className='bg-cyan-200 p-1 px-2 rounded-lg font-bold opacity-60 hover:bg-cyan-300 ring-2 ring-cyan-300 peer-checked:ring-sky-700 peer-checked:opacity-100'
 						>
-							Vie
+							{t('label_vie')}
 						</label>
 					</li>
 					<li>
@@ -394,7 +397,7 @@ function FormWorkspace({ setShowForm, dataUpdate = null }) {
 							htmlFor='Sab'
 							className='bg-cyan-200 p-1 px-2 rounded-lg font-bold opacity-60 hover:bg-cyan-300 ring-2 ring-cyan-300 peer-checked:ring-sky-700 peer-checked:opacity-100'
 						>
-							Sab
+							{t('label_sab')}
 						</label>
 					</li>
 					<li>
@@ -413,7 +416,7 @@ function FormWorkspace({ setShowForm, dataUpdate = null }) {
 							htmlFor='Dom'
 							className='bg-cyan-200 p-1 px-2 rounded-lg font-bold opacity-60 hover:bg-cyan-300 ring-2 ring-cyan-300 peer-checked:ring-sky-700 peer-checked:opacity-100'
 						>
-							Dom
+							{t('label_dom')}
 						</label>
 					</li>
 				</ul>
@@ -433,7 +436,7 @@ function FormWorkspace({ setShowForm, dataUpdate = null }) {
 							htmlFor='from'
 							className='absolute text-blue-950 duration-300 transform -translate-y-8 scale-75 top-1 z-10 origin-[0] peer-focus:left-0 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-1 peer-placeholder-shown:left-2 peer-focus:scale-75 peer-focus:-translate-y-7'
 						>
-							Desde
+							{t('label_from')}
 						</label>
 					</div>
 					<div className='relative z-0 w-full '>
@@ -451,7 +454,7 @@ function FormWorkspace({ setShowForm, dataUpdate = null }) {
 							htmlFor='to'
 							className='absolute text-blue-950 duration-300 transform -translate-y-8 scale-75 top-1 z-10 origin-[0] peer-focus:left-0 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-1 peer-placeholder-shown:left-2 peer-focus:scale-75 peer-focus:-translate-y-7'
 						>
-							Hasta
+							{t('label_to')}
 						</label>
 					</div>
 				</div>
@@ -461,7 +464,7 @@ function FormWorkspace({ setShowForm, dataUpdate = null }) {
 						className='mx-auto bg-cyan-700 text-sky-50 py-1 px-5 rounded-lg hover:scale-110 disabled:opacity-50 disabled:scale-100'
 						disabled={loading}
 					>
-						Crear
+						{t('button_create')}
 					</button>
 					<button
 						className='mx-auto bg-rose-600 text-sky-50 py-1 px-5 rounded-lg hover:scale-110 disabled:opacity-50 disabled:scale-100'
@@ -471,7 +474,7 @@ function FormWorkspace({ setShowForm, dataUpdate = null }) {
 							setShowForm(false)
 						}}
 					>
-						Cancelar
+						{t('button_cancel')}
 					</button>
 				</div>
 			</form>

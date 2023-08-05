@@ -1,8 +1,10 @@
 import { Link } from 'react-router-dom'
 import LOGO from '../assets/Logo-Home.webp'
 import FormRegister from '../components/FormRegister'
+import { useTranslation } from 'react-i18next'
 
 function Register() {
+	const {t} = useTranslation(['register'])
 	return (
 		<main className='min-h-screen flex justify-center items-center px-10 py-5'>
 			<Link to={'/'}>
@@ -20,7 +22,7 @@ function Register() {
 						className='hidden min-500:block w-24 min-900:w-32 aspect-square mx-auto'
 					/>
 					<p className='text-center min-500:text-lg font-semibold px-5 min-500:px-10'>
-					Con Meet Workspace, encontrar el espacio perfecto para trabajar es fácil. ¡Comienza ahora mismo!
+						{t('text')}
 					</p>
 				</div>
 				<div className="h-[1px] min-900:h-auto min-900:w-px border-0 bg-blue-950"/>

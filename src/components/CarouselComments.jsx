@@ -7,15 +7,18 @@ import { BsChevronCompactLeft, BsChevronCompactRight } from 'react-icons/bs'
 import { decodeToken } from 'react-jwt'
 import ModalDelete from './ModalDelete'
 import PropTypes from 'prop-types'
+import { toastSuccess } from '../utils/toasts'
+import { useTranslation } from 'react-i18next'
 
 const CarouselComments = ({ comments }) => {
+	const {t} = useTranslation(['comments'])
    const { user } = useContext(UserContext)
    const [currentIndex, setCurrentIndex] = useState(0)
    const [deleteItem, setDeleteItem] = useState(null)
    const [modalDelete, setModalDelete] = useState(false)
    const userID = decodeToken(user.token).id
 
-   const [deleteComment] = useMutation(DELETE_COMMENT, {
+   const [deleteComment, { data: dataDelete, loading, error, reset }] = useMutation(DELETE_COMMENT, {
 		refetchQueries: ['GetWorkspace']
 	})
 
@@ -41,6 +44,13 @@ const CarouselComments = ({ comments }) => {
       )
    }
 
+   if (dataDelete) {
+      setModalDelete(false)
+      toastSuccess(`${t('delete_success')}`)
+      toastSuccess('Comentario eliminado')
+      reset()
+   }
+   
    return (
       <>
          {comments.length > 0 && (
@@ -80,7 +90,7 @@ const CarouselComments = ({ comments }) => {
             </article>
          )}
          {modalDelete && 
-            <ModalDelete setModalDelete={setModalDelete} id={deleteItem} peticion={deleteComment}/>
+            <ModalDelete setModalDelete={setModalDelete} id={deleteItem} peticion={deleteComment} actions={{ loading, error, reset }}/>
          }
       </>
    )

@@ -5,8 +5,11 @@ import { VscChromeClose } from 'react-icons/vsc'
 import { GET_USERS, UPDATE_USER } from '../graphql/users'
 import { toastCustom, toastError, toastSuccess } from '../utils/toasts'
 import PropTypes from 'prop-types'
+import { useTranslation } from 'react-i18next'
+import TooltipCustom from './TooltipCustom'
 
 function RowUserEdit({ user, setEditing }) {
+	const {t} = useTranslation(['rowUser'])
 	const [userData, setUserData] = useState({
 		username: user.username,
 		email: user.email,
@@ -46,13 +49,13 @@ function RowUserEdit({ user, setEditing }) {
 				}
 			})
 		} else {
-			toastCustom('No has editado ningun dato', '⚠️', 'bottom-left')
+			toastCustom(`${t('msg_warning')}`, '⚠️', 'bottom-left')
 		}
 	}
 
 	if (data) {
 		setEditing(false)
-		toastSuccess('Editado con exito')
+		toastSuccess(`${t('msg_success')}`)
 	}
 
 	return (
@@ -63,7 +66,7 @@ function RowUserEdit({ user, setEditing }) {
             title='Nombre de Usuario'
 				value={userData.username}
 				onChange={handleChange}
-				placeholder='Username'
+				placeholder={t('label_username')}
             autoFocus
 				className='font-bold w-full bg-inherit outline-none ring-1 rounded-sm px-3 py-1 placeholder:text-blue-950/70 focus:rounded-xl focus:ring-sky-700 focus:placeholder:text-blue-950/50'
 			/>
@@ -73,7 +76,7 @@ function RowUserEdit({ user, setEditing }) {
             title='Correo Electronico'
 				value={userData.email}
 				onChange={handleChange}
-				placeholder='email'
+				placeholder={t('label_email')}
 				className='font-medium w-full bg-inherit outline-none ring-1 rounded-sm px-3 py-1 placeholder:text-blue-950/70 focus:rounded-xl focus:ring-sky-700 focus:placeholder:text-blue-950/50'
 			/>
 			<select
@@ -90,26 +93,26 @@ function RowUserEdit({ user, setEditing }) {
 			</select>
 			<div className='flex items-center gap-10 sm:gap-5 lg:gap-10'>
 				<button
-					className='relative group/workspace'
+					className='relative group'
 					disabled={loading}
 				>
-					<BsCheckLg className='hover:scale-125 group-disabled/workspace:opacity-50 group-disabled/workspace:hover:scale-100 text-2xl text-green-700' />
-					<span className='hidden group-hover/workspace:block bg-blue-950 text-sky-50 text-sm rounded py-1 px-2 absolute left-1/2 transform -translate-x-1/2 translate-y-4 transition-opacity duration-300'>
-						Confirmar
-					</span>
+					<BsCheckLg className='hover:scale-125 group-disabled:opacity-50 group-disabled:hover:scale-100 text-2xl text-green-700' />
+					<TooltipCustom position='buttom'>
+						{t('button_confirm')}
+					</TooltipCustom>
 				</button>
 				<button
-					className='relative group/workspace'
+					className='relative group'
 					disabled={loading}
 					onClick={e => {
 						e.preventDefault()
 						setEditing(false)
                }}
 				>
-					<VscChromeClose className='hover:scale-125 group-disabled/workspace:opacity-50 group-disabled/workspace:hover:scale-100 text-2xl text-rose-600' />
-					<span className='hidden group-hover/workspace:block bg-blue-950 text-sky-50 text-sm rounded py-1 px-2 absolute left-1/2 transform -translate-x-1/2 translate-y-4 transition-opacity duration-300'>
-						Cancelar
-					</span>
+					<VscChromeClose className='hover:scale-125 group-disabled:opacity-50 group-disabled:hover:scale-100 text-2xl text-rose-600' />
+					<TooltipCustom position='buttom'>
+						{t('button_cancel')}
+					</TooltipCustom>
 				</button>
 			</div>
 		</form>

@@ -4,8 +4,10 @@ import { Link, useNavigate } from "react-router-dom"
 import { useMutation } from '@apollo/client'
 import { LOGIN } from "../graphql/Users"
 import { toastCustom, toastError } from "../utils/toasts"
+import { useTranslation } from "react-i18next"
 
 function FormLogin() {
+	const {t} = useTranslation(['login'])
 	const { setUser } = useContext(UserContext)
 	const [userForm, setUserForm] = useState({
 		username: '',
@@ -17,7 +19,7 @@ function FormLogin() {
 
 	if (data?.login) {
 		localStorage.setItem('User', JSON.stringify(data.login))
-		toastCustom(`Bievenido ${data.login.username}`, '👏')
+		toastCustom(`${t('toast_custom', {username: `${data.login.username}`})}`, '👏')
 		setUser(data.login)
 		navegar('/workspaces')
 	}
@@ -25,10 +27,10 @@ function FormLogin() {
 	const handleSubmit = (e) => {
 		e.preventDefault()
 		if (userForm.username === '') {
-			return toastError('El campo Username no puede estar vacio')
+			return toastError(`${t('toast_error_username')}`)
 		}
 		if (userForm.password === '') {
-			return toastError('El campo Password no puede estar vacio')
+			return toastError(`${t('toast_error_password')}`)
 		}
 		login({
 			variables: {
@@ -52,7 +54,7 @@ function FormLogin() {
 
 	return (
 		<form className='flex flex-col gap-8 px-5 min-500:text-lg min-900:px-0 min-900:py-10 flex-1' onSubmit={handleSubmit}>
-			<h2 className='text-center text-2xl font-bold'>Inicia Sesión</h2>
+			<h2 className='text-center text-2xl font-bold'>{t('title')}</h2>
 			<div className='relative z-0 w-full '>
 				<input
 					type='text'
@@ -68,7 +70,7 @@ function FormLogin() {
 					htmlFor='username'
 					className='absolute text-blue-950 duration-300 transform -translate-y-8 scale-75 top-1 z-10 origin-[0] peer-focus:left-0 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-1 peer-placeholder-shown:left-2 peer-focus:scale-75 peer-focus:-translate-y-7'
 				>
-					Username
+					{t('label_username')}
 				</label>
 			</div>
 			<div className='relative z-0 w-full '>
@@ -85,14 +87,14 @@ function FormLogin() {
 					htmlFor='password'
 					className='absolute text-blue-950 duration-300 transform -translate-y-8 scale-75 top-1 z-10 origin-[0] peer-focus:left-0 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-1 peer-placeholder-shown:left-2 peer-focus:scale-75 peer-focus:-translate-y-7'
 				>
-					Password
+					{t('label_password')}
 				</label>
 			</div>
 			<div className="flex justify-between items-center">
-				<strong className="text-xs min-500:text-sm">¿No tienes una cuenta?</strong>
-				<Link to={'/register'} className="text-xs min-500:text-sm text-cyan-700/80 hover:font-bold">Crear cuenta</Link>
+				<strong className="text-xs min-500:text-sm">{t('text_strong')}</strong>
+				<Link to={'/register'} className="text-xs min-500:text-sm text-cyan-700/80 hover:font-bold">{t('text_link')}</Link>
 			</div>
-			<button className="mx-auto bg-cyan-700 text-sky-50 py-1 px-10 rounded-lg hover:scale-110 disabled:opacity-50 disabled:scale-100" disabled={loading}>Iniciar Sesión</button>
+			<button className="mx-auto bg-cyan-700 text-sky-50 py-1 px-10 rounded-lg hover:scale-110 disabled:opacity-50 disabled:scale-100" disabled={loading}>{t('button_text')}</button>
 		</form>
 	)
 }

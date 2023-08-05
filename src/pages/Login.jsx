@@ -1,8 +1,10 @@
 import { Link } from 'react-router-dom'
 import LOGO from '../assets/Logo-Home.webp'
 import FormLogin from '../components/FormLogin'
+import { useTranslation } from 'react-i18next'
 
 function Login() {
+	const {t} = useTranslation(['login'])
 	return (
 		<main className='min-h-screen flex justify-center items-center p-10'>
 			<Link to={'/'}>
@@ -20,9 +22,7 @@ function Login() {
 						className='hidden min-500:block w-24 min-900:w-32 aspect-square mx-auto'
 					/>
 					<p className='text-center min-500:text-lg font-semibold px-5 min-500:px-10'>
-						¿Necesitas un lugar para trabajar? ¡Tenemos lo que necesitas!
-						Inicia sesión en Meet Workspace y encuentra el espacio ideal para
-						ti.
+						{t('text')}
 					</p>
 				</div>
 				<div className="h-[1px] min-900:h-auto min-900:w-px border-0 bg-blue-950"/>

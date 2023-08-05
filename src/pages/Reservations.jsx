@@ -1,25 +1,30 @@
-import { useState } from 'react';
 import CardReservation from '../components/CardReservations'
 import Footer from '../components/Footer'
 import Nav from '../components/Nav'
 import { GET_RESERVATIONS } from '../graphql/reservations';
 import { useQuery } from '@apollo/client';
+import LoaderDashWorks from '../components/LoaderDashWorks';
+import { useTranslation } from 'react-i18next';
+import { toastError } from '../utils/toasts';
 
 function Reservations() {
-	const {loading, error, data} = useQuery(GET_RESERVATIONS);
-	console.log(data)
+	const {t} = useTranslation(['reservations'])
+	const { loading, error, data } = useQuery(GET_RESERVATIONS);
+
+	if (error?.message) {
+		toastError(error?.message)
+	}
+
 	return (
 		<div className='relative min-h-screen'>
 			<Nav />
 			<main className='flex flex-col py-5 gap-5 pb-96'>
 				<h1 className='text-2xl sm:text-3xl text-center font-bold'>
-					Mis reservas
+					{t('title')}
 				</h1>
 				{
 					loading? (
-						<div className="ca">
-							<h1>Cargando</h1>
-						</div>
+						<LoaderDashWorks/>
 					):
 					<section className='grid sm:grid-cols-2 min-[950px]:grid-cols-3 justify-items-center px-10 gap-10'>
 						{
