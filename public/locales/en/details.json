@@ -1,0 +1,9 @@
+{
+   "text_price": "Free",
+   "max_people": "people",
+   "coordinates_strong": "Coordinates",
+   "horary_strong": "Schedule",
+   "status_true": "AVAILABLE",
+   "status_false": "Not available",
+   "button_reserv": "Reserve"
+}

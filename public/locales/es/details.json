@@ -1,0 +1,9 @@
+{
+   "text_price": "Gratis",
+   "max_people": "personas",
+   "coordinates_strong": "Coordenadas",
+   "horary_strong": "Horario",
+   "status_true": "DISPONIBLE",
+   "status_false": "No se encuentra disponible",
+   "button_reserv": "Reservar"
+}

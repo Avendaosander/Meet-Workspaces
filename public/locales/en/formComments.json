@@ -1,0 +1,6 @@
+{
+   "placeholder_text": "Leave your comment here ⬇️",
+   "button_create": "Comment",
+   "msg_success_create": "Comment added",
+   "msg_error": "You cannot make an empty comment"
+}

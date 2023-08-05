@@ -1,0 +1,12 @@
+{
+   "text": "Need a place to work? We've got what you need! Log in to Meet Workspace and find the space that's right for you.",
+   "title": "Login",
+   "label_username": "Username",
+   "label_password": "Password",
+   "text_strong": "Don't have an account?",
+   "text_link": "Create account",
+   "button_text": "Login",
+   "toast_custom": "Welcome {{username}}",
+   "toast_error_username": "Username field cannot be empty",
+   "toast_error_password": "Password field cannot be empty"
+}

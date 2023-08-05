@@ -1,0 +1,16 @@
+{
+   "text": "Con Meet Workspace, encontrar el espacio perfecto para trabajar es fácil. ¡Comienza ahora mismo!",
+   "title": "Registrarse",
+   "label_username": "Nombre de usuario",
+   "label_email": "Correo",
+   "label_password": "Contraseña",
+   "label_confirm_password": "Confirmar contraseña",
+   "text_strong": "¿Ya tienes una cuenta?",
+   "text_link": "Inicia sesión",
+   "button_text": "Registrar",
+   "toast_custom": "Bienvenido {{username}}",
+   "toast_error_username": "El campo Nombre de Usuario no puede estar vacio",
+   "toast_error_email": "El campo Correo no puede estar vacio",
+   "toast_error_password": "El campo Contraseña no puede estar vacio",
+   "toast_error_confirm_password": "Contraseñas no son iguales"
+}

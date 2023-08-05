@@ -1,0 +1,7 @@
+{
+   "max_people": "people",
+   "text_price": "Free",
+   "button_edit": "Edit",
+   "button_delete": "Delete",
+   "delete success": "Deleted workspace"
+}

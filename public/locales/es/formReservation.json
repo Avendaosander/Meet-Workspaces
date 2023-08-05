@@ -1,0 +1,20 @@
+{
+   "title": "Reservación",
+   "text_price": "Gratis",
+   "msg_success_create": "Reservación exitosa",
+   "label_date": "Fecha",
+   "label_time": "Hora",
+   "label_duration": "Duración",
+   "text_option_default": "--Duracion--",
+   "text_option_minutes": "minutos",
+   "text_option_hour": "hora",
+   "text_option_hours": "horas",
+   "text_button_create": "Reservar",
+   "text_button_cancel": "Cancelar",
+   "msg_warning_date": "La fecha no puede estar vacía",
+   "msg_warning_date_today_validate": "La fecha no puede ser anterior a la fecha actual",
+   "msg_warning_date_validate": "La fecha debe ser en un dia laboral permitido",
+   "msg_warning_hour": "La hora no puede estar vacía",
+   "msg_warning_hour_validate": "La hora de reservación debe estar entre el horario permitido",
+   "msg_warning_duration": "La duracion no puede estar vacía"
+}

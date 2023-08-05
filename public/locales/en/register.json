@@ -1,0 +1,16 @@
+{
+   "text": "With Meet Workspace, finding the perfect space to work is easy. Get started now!",
+   "title": "Sign up",
+   "label_username": "Username",
+   "label_email": "Email",
+   "label_password": "Password",
+   "label_confirm_password": "Confirm password",
+   "text_strong": "Already have an account?",
+   "text_link": "Login",
+   "button_text": "Register",
+   "toast_custom": "Welcome {{username}}",
+   "toast_error_username": "Username field cannot be empty",
+   "toast_error_email": "Email field cannot be empty",
+   "toast_error_password": "The Password field cannot be empty",
+   "toast_error_confirm_password": "Passwords do not match"
+}
